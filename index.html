@@ -1,0 +1,123 @@
+<html>
+
+<head>
+  <title>JudgeTable</title>
+
+  <script src="/bower_components/handsontable/dist/handsontable.full.js"></script>
+  <script src="bower_components/firebase/firebase.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/papaparse/papaparse.min.js"></script>
+  <script src="bower_components/file-saver.js/FileSaver.js"></script>
+
+  <link rel="stylesheet" media="screen" href="/bower_components/handsontable/dist/handsontable.full.css">
+
+</head>
+
+<body>
+
+  <p><button id="export">Download CSV</button></p>
+  <div id="table"></div>
+
+  <script>
+  var expo;
+  var container = document.getElementById('table');
+  var hot;
+
+  // PAPAPARSE EXPO.CSV for project/expo/table data
+    Papa.parse("data/expo.csv", {
+      download: true,
+      header: true,
+    	complete: function(results) {
+    		console.log(results.data);
+        expo = results.data;
+        createTable(expo);
+    	}
+    });
+
+  // HANDSONTABLE INIT
+    function createTable(expo){
+      hot = new Handsontable(container, {
+        data: expo,
+        columnSorting: true,
+        manualColumnResize: true,
+        sortIndicator: true,
+        formulas: true,
+        dataSchema: {
+          id: null,
+          expo: null,
+          table: null,
+          project: null,
+          j1: null,
+          s1: null,
+          j2: null,
+          s2: null,
+          j3: null,
+          s3: null,
+          total: null
+        },
+        startRows: 5,
+        startCols: 4,
+        colHeaders: [
+          'Expo',
+          'Table',
+          'Project',
+          'Judge 1',
+          'Score 1',
+          'Judge 2',
+          'Score 2',
+          'Judge 3',
+          'Score 4',
+          'Total'
+        ],
+        columns: [
+          {data: 'expo', readOnly: true},
+          {data: 'table', readOnly: true},
+          {data: 'project', readOnly: true},
+          {data: 'j1'},
+          {data: 's1'},
+          {data: 'j2'},
+          {data: 's2'},
+          {data: 'j3'},
+          {data: 's3'},
+          {data: 'total', readOnly: true}
+        ],
+        //minSpareRows: 1,
+        rowHeaders: false
+      });
+    }
+
+  // EXPORT
+
+  $("#export").click( function() {
+
+    tableData = hot.getData();
+    //console.log(tableData);
+    headers = [
+      'Expo',
+      'Table',
+      'Project',
+      'Judge 1',
+      'Score 1',
+      'Judge 2',
+      'Score 2',
+      'Judge 3',
+      'Score 4',
+      'Total'
+    ];
+
+    tableData.unshift(headers);
+    //console.log(tableData);
+
+    csv = Papa.unparse(tableData);
+    console.log(csv);
+
+    var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "scores.csv");
+  });
+
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "name": "judgetable",
+  "authors": [
+    "Neal Shyam <neal@audioshocker.com>"
+  ],
+  "description": "a hackathon expo judging app",
+  "main": "",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "hackathon",
+    "expo",
+    "judge"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "firebase": "^2.4.0",
+    "handsontable": "~0.22.0",
+    "jquery": "^2.2.0",
+    "papaparse": "^4.1.2",
+    "file-saver.js": "file-saver-saveas-js#^1.20150507.2"
+  }
+}
